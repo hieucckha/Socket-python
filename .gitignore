@@ -1,0 +1,7 @@
+# Folder
+__pycache__/
+.vs/
+
+# File
+TClinet.py
+TServer.py
