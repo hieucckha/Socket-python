@@ -1,6 +1,9 @@
 # Folder
 __pycache__/
 .vs/
+.venv/
+.idea/
+ClientTmp/
 
 # File
 TClinet.py

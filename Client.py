@@ -3,6 +3,7 @@ from socket import *
 import time
 import signal
 import json
+from tkinter import *
 
 # Testing only, for Ctrl + C
 signal.signal(signal.SIGINT, signal.SIG_DFL)
@@ -14,13 +15,13 @@ QUERY_LISTDATA = "!SEND_LISTDATA"
 QUERY_IMAGE = "!SEND_IMAGE_AT_"
 
 s = socket(AF_INET, SOCK_DGRAM)
-SERVER_ADDRESS_PORT = ("192.168.1.13", 39000)
+SERVER_ADDRESS_PORT = ("192.168.1.16", 39000)
 
-# s.sendto(QUERY_LISTDATA.encode(), SERVER_ADDRESS_PORT)
-# print(f"Send to address {SERVER_ADDRESS_PORT[0]} at port {SERVER_ADDRESS_PORT[1]}")
+s.sendto(QUERY_LISTDATA.encode(), SERVER_ADDRESS_PORT)
+print(f"Send to address {SERVER_ADDRESS_PORT[0]} at port {SERVER_ADDRESS_PORT[1]}")
 
-# data, addr = s.recvfrom(2048)
-# print(f"Receive from address {addr[0]} at port {addr[1]}")
+data, addr = s.recvfrom(2048)
+print(f"Receive from address {addr[0]} at port {addr[1]}")
 
 # fClientListData = open(f"{CLIENT_TMP_FOLDER}/{SERVER_FILE_LISTDATA_NAME}", "wb")
 # try:
@@ -67,4 +68,20 @@ with open("ClientTmp/ListData.json", "rb") as f:
             print(exception)
 
 print("[*] Done")
-x = input()
+
+# root = Tk()
+# # width x height
+# root.geometry("500x200")
+
+# titleLbl = Label(root, text="Địa điểm yêu thích")
+# titleLbl.pack()
+
+# dcrpLbl = Label(root, text="Click chuột để chọn địa điểm", height=30)
+# dcrpLbl.pack()
+
+# lb = Listbox(root)
+# lb.insert
+
+# lb.pack()
+
+# root.mainloop()
