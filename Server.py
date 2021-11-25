@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 from socket import *
 import threading
 import json
@@ -5,6 +6,10 @@ import json
 from tkinter import *
 from tkinter import messagebox
 
+import signal
+
+# Testing only, for Ctrl + C
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # Constant value
 
@@ -24,21 +29,21 @@ SERVER_FILE_LISTDATA_NAME = "ListData.json"
 isSocketRunning = False
 
 
-def loopSocketListen(socket):
+def loopSocketListen(sck):
     while isSocketRunning == True:
-        data, addr = s.recvfrom(1024)
+        data, addr = sck.recvfrom(1024)
         print(f"[*] Receive {data.decode()} from address {addr[0]} at port {addr[1]}")
 
         # !SOCKET_CONNECT
         if data.decode() == START_CONNET:
-            s.sendto(REPLY_START_CONNECT.encode(), addr)
+            sck.sendto(REPLY_START_CONNECT.encode(), addr)
             print(
                 f"[-] Send {REPLY_START_CONNECT} to address {addr[0]} at port {addr[1]}"
             )
 
         # !SEND_LISTDATA
         elif data.decode() == QUERY_LISTDATA:
-            s.sendto(SERVER_FILE_LISTDATA_NAME.encode(), addr)
+            sck.sendto(SERVER_FILE_LISTDATA_NAME.encode(), addr)
             print(
                 f"[-] Send {SERVER_FILE_LISTDATA_NAME.encode()} to address {addr[0]} at port {addr[1]}"
             )
@@ -48,7 +53,7 @@ def loopSocketListen(socket):
             )
 
             while chunk := fServerListData.read(1024):
-                s.sendto(chunk, addr)
+                sck.sendto(chunk, addr)
                 # print(f"Send to address {addr[0]} at port {addr[1]}")
 
             print(
@@ -74,13 +79,13 @@ def loopSocketListen(socket):
             with open(
                 f"{SERVER_DATA_FOLDER}/{SERVER_IMAGE_FOLDER}/{NameImage}", "rb"
             ) as fImage:
-                s.sendto(NameImage.encode(), addr)
+                sck.sendto(NameImage.encode(), addr)
                 print(
                     f"[-] Send {NameImage.encode()} to address {addr[0]} at port {addr[1]}"
                 )
 
                 while chunk := fImage.read(1024):
-                    s.sendto(chunk, addr)
+                    sck.sendto(chunk, addr)
                     # print(f"Send to address {addr[0]} at port {addr[1]}")
 
             print(f"[!] Done send {NameImage} to address {addr[0]} at port {addr[1]}")
@@ -93,19 +98,20 @@ def handle_BtnClick():
     global isSocketRunning
 
     if isSocketRunning == False:
-        global s
+        global sck
         global tAddrPort
+
+        isSocketRunning = True
+
         tAddrPort = (gethostbyname(gethostname()), 39000)
 
-        s = socket(AF_INET, SOCK_DGRAM)
-        s.bind(tAddrPort)
+        sck = socket(AF_INET, SOCK_DGRAM)
+        sck.bind(tAddrPort)
         print(f"[!] Socket at {tAddrPort[0]} at {tAddrPort[1]}")
 
         global thdSocketListen
-        thdSocketListen = threading.Thread(target=loopSocketListen, args=[s])
+        thdSocketListen = threading.Thread(target=loopSocketListen, args=[sck])
         thdSocketListen.start()
-
-        isSocketRunning = True
 
         global statusLbl
 
@@ -131,7 +137,7 @@ def handle_BtnExit(tkWindow):
             tkWindow.destroy()
 
             isSocketRunning = False
-            s.sendto(TERMINATE_CONNET.encode(), tAddrPort)
+            sck.sendto(TERMINATE_CONNET.encode(), tAddrPort)
             thdSocketListen.join()
             exit
     else:
@@ -146,7 +152,7 @@ def main():
     global statusLbl
 
     root = Tk()
-    root.title("Sevrer")
+    root.title("Server")
     # root.geometry("240x160")
     root.resizable(False, False)
 

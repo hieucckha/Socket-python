@@ -17,11 +17,12 @@ QUERY_IMAGE = "!SEND_IMAGE_AT_"
 s = socket(AF_INET, SOCK_DGRAM)
 SERVER_ADDRESS_PORT = ("192.168.1.16", 39000)
 
-s.sendto(QUERY_LISTDATA.encode(), SERVER_ADDRESS_PORT)
-print(f"Send to address {SERVER_ADDRESS_PORT[0]} at port {SERVER_ADDRESS_PORT[1]}")
 
-data, addr = s.recvfrom(2048)
-print(f"Receive from address {addr[0]} at port {addr[1]}")
+# s.sendto(QUERY_LISTDATA.encode(), SERVER_ADDRESS_PORT)
+# print(f"Send to address {SERVER_ADDRESS_PORT[0]} at port {SERVER_ADDRESS_PORT[1]}")
+
+# data, addr = s.recvfrom(2048)
+# print(f"Receive from address {addr[0]} at port {addr[1]}")
 
 # fClientListData = open(f"{CLIENT_TMP_FOLDER}/{SERVER_FILE_LISTDATA_NAME}", "wb")
 # try:
@@ -32,9 +33,9 @@ print(f"Receive from address {addr[0]} at port {addr[1]}")
 #         s.settimeout(0.5)
 # except timeout:
 #     fClientListData.close()
-#     s.close()
 
 # print("## DONE")
+
 
 with open("ClientTmp/ListData.json", "rb") as f:
     data = f.read().decode("utf-8")
