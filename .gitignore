@@ -6,5 +6,6 @@ __pycache__/
 ClientTmp/
 
 # File
+ClientTmp/*
 TClinet.py
 TServer.py
