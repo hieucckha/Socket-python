@@ -128,7 +128,7 @@ class ClientScreen(tk.Tk):
         self.downListData()
 
         self.title("List Address")
-        self.geometry("800x300")
+        self.geometry("800x330")
         self.resizable(False, False)
 
         self.mainFrame = tk.Frame(self, bg="#AC99F2")
@@ -448,7 +448,7 @@ class ClientScreen(tk.Tk):
                 )
             )
 
-            label = Button(root, image=my_img, command=lambda: zoomImage(2))
+            label = Button(root, image=my_img, command=lambda: zoomImage(imageNumber))
             # lbl.image = my_img
             label.grid(row=1, column=3, columnspan=2, rowspan=6, padx=35, pady=5)
 
@@ -459,13 +459,22 @@ class ClientScreen(tk.Tk):
                 top.geometry(f"{x}x{y}")
                 top.title("Information")
                 top.resizable(False, False)
+
                 app_icon1 = Image.open("ClientMaterial/dulich.jpg")
                 app_icon1 = ImageTk.PhotoImage(app_icon1)
                 top.iconphoto(False, app_icon1)
-                # BACKGROUND
-                background1 = Image.open(self.imageFile[image_number - 1])
-                background1 = background1.resize((x, y), Image.ANTIALIAS)
-                top.background = ImageTk.PhotoImage(background1)
+
+                # Background
+                imageName = my_json[int(code.get("1.0", END)) - 1].get("image")[
+                    image_number
+                ]
+                my_img = ImageTk.PhotoImage(
+                    Image.open(f"{CLIENT_TMP_FOLDER}/{imageName}").resize(
+                        (x, y), Image.ANTIALIAS
+                    )
+                )
+                top.background = my_img
+
                 Label(top, image=top.background).place(x=0, y=0)
 
                 # top.protocol("WM_DELETE_WINDOW", lambda: handle_BtnExit(top))
