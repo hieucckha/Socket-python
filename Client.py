@@ -9,6 +9,7 @@ from socket import *
 import tkinter
 from tkinter.ttk import Treeview
 import ipaddress
+from ClinentHelper import *
 
 from PIL import ImageTk, Image
 
@@ -453,32 +454,35 @@ class ClientScreen(tk.Tk):
             label.grid(row=1, column=3, columnspan=2, rowspan=6, padx=35, pady=5)
 
             def zoomImage(image_number):
-                top = Toplevel()
-                x = 980
-                y = 580
-                top.geometry(f"{x}x{y}")
-                top.title("Information")
-                top.resizable(False, False)
 
-                app_icon1 = Image.open("ClientMaterial/dulich.jpg")
-                app_icon1 = ImageTk.PhotoImage(app_icon1)
-                top.iconphoto(False, app_icon1)
+
+                # top = Toplevel()
+                # x = 980
+                # y = 580
+                # top.geometry(f"{x}x{y}")
+                # top.title("Information")
+                # top.resizable(False, False)
+
+                # app_icon1 = Image.open("ClientMaterial/dulich.jpg")
+                # app_icon1 = ImageTk.PhotoImage(app_icon1)
+                # top.iconphoto(False, app_icon1)
 
                 # Background
                 imageName = my_json[int(code.get("1.0", END)) - 1].get("image")[
                     image_number
                 ]
-                my_img = ImageTk.PhotoImage(
-                    Image.open(f"{CLIENT_TMP_FOLDER}/{imageName}").resize(
-                        (x, y), Image.ANTIALIAS
-                    )
-                )
-                top.background = my_img
+                # my_img = ImageTk.PhotoImage(
+                #     Image.open(f"{CLIENT_TMP_FOLDER}/{imageName}").resize(
+                #         (x, y), Image.ANTIALIAS
+                #     )
+                # )
+                MainWindowZoom(Toplevel(), f"{CLIENT_TMP_FOLDER}/{imageName}")
+                # top.background = my_img
 
-                Label(top, image=top.background).place(x=0, y=0)
+                # Label(top, image=top.background).place(x=0, y=0)
 
                 # top.protocol("WM_DELETE_WINDOW", lambda: handle_BtnExit(top))
-                top.mainloop()
+                # top.mainloop()
 
             def forward(image_number):
                 global label
