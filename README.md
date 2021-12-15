@@ -11,6 +11,6 @@
 # To-do
 
 - [X] Cliet truy vấn server danh sách các địa điểm đang được server quản lý: mã số, tên địa điểm, vị trí địa lý (vĩ độ, kinh độ), mô tả
-- [ ] Client truy vấn server 1 địa điểm thông tin: mã số, tên địa điểm, vị trí địa lý (vĩ độ, kinh độ), mô tả 
-- [ ] Cần fix lại chỗ gửi hình từ sv -> cl còn bị mất dữ liệu nhiều.
-- [ ] Thêm check nếu dữ liệu bên cl có trong ClientTmp/ thì không cần phải request lại
+- [X] Client truy vấn server 1 địa điểm thông tin: mã số, tên địa điểm, vị trí địa lý (vĩ độ, kinh độ), mô tả
+- [X] Cần fix lại chỗ gửi hình từ sv -> cl còn bị mất dữ liệu nhiều.
+- [X] Thêm check nếu dữ liệu bên cl có trong ClientTmp/ thì không cần phải request lại
